@@ -285,10 +285,42 @@ AddEventHandler("RC:gps", function()
 end)
 
 AddEventHandler("RC:battleground", function()
-  local myPed = GetPlayerPed(-1)
 
+  local bgplanes = {}
+  bgplanes[frontplane] = {x="3062.3767089844", y="-4730.7602539063", z="15.1020812988", heading="25.3556747365"}
+  bgplanes[middleplane] = {x="3079.4516601563", y="-4766.7919921875", z="16.1024532318", heading="25.3556747365"}
+  bgplanes[rearplane] = {x="3096.6818847656", y="-4803.0854492188", z="16.1010742188", heading="25.3556747365"}
+  local planeModel = GetHashKey("titan")
+
+  while (not HasModelLoaded(planeModel)) do 
+    RequestModel(planeModel)
+    Citizen.Wait(0)
+  end
+
+  local frontplane = CreateVehicle(planeModel, bgplanes[frontplane][x], bgplanes[frontplane][y], bgplanes[frontplane][z], bgplanes[frontplane][heading], true, false)
+  local middleplane = CreateVehicle(planeModel, bgplanes[middleplane][x], bgplanes[middleplane][y], bgplanes[middleplane][z], bgplanes[middleplane][heading], true, false)
+  local rearplane = CreateVehicle(planeModel, bgplanes[rearplane][x], bgplanes[rearplane][y], bgplanes[rearplane][z], bgplanes[rearplane][heading], true, false)
+  SetVehicleOnGroundProperly(frontplane)
+  SetVehicleOnGroundProperly(middleplane)
+  SetVehicleOnGroundProperly(rearplane)
+  SetModelAsNoLongerNeeded(planeModel)
+  SetVehicleDoorsLockedForAllPlayers(frontplane,true)
+  SetVehicleDoorsLockedForAllPlayers(middleplane,true)
+  SetVehicleDoorsLockedForAllPlayers(rearplane,true)
+  
+  local bgspawn = {x="3043.4729003906", y="-4637.8989257813", z="15.2614269257", heading="193.9027099609"}
+  local playerModel = GetHashKey("FreeModeMale01")
+
+  while (not HasModelLoaded(playerModel)) do 
+    RequestModel(playerModel)
+    Citizen.Wait(0)
+  end
+
+  SetPlayerModel(PlayerId(), playerModel)
+  SetModelAsNoLongerNeeded(playerModel)
+
+  TriggerEvent("chatMessage", "BG", {255, 255, 255}, "The battle will begin shortly.")
   -- drawMarker(type, posX, posY, posZ, dirX, dirY, dirZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, colorR, colorG, colorB, alpha, bobUpAndDown, faceCamera, p19, rotate, textureDict, textureName, drawOnEnts)
-  TriggerEvent("chatMessage", "BG", {255, 255, 255}, "Battleground mod activated.")
   
 end)
 
