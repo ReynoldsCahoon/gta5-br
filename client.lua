@@ -320,6 +320,15 @@ AddEventHandler("RC:battleground", function()
   SetModelAsNoLongerNeeded(playerModel)
 
   TriggerEvent("chatMessage", "BG", {255, 255, 255}, "The battle will begin shortly.")
+
+  -- Warp Players into the planes TaskWarpPedIntoVehicle(ped, vehicle, seat)
+  -- If possible, run all peds to the planes, rather than teleporting
+
+  -- Make Peds Drop Weapons, might make it dependant on ped group
+  -- (Standard civilians pistols? Gang/guards/police shotungs/rifles/smgs?)
+  -- SetPedDropsWeapon
+  -- SetPedDropsInventoryWeapon
+
   -- drawMarker(type, posX, posY, posZ, dirX, dirY, dirZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, colorR, colorG, colorB, alpha, bobUpAndDown, faceCamera, p19, rotate, textureDict, textureName, drawOnEnts)
   
 end)
@@ -329,6 +338,7 @@ Citizen.CreateThread(function()
     -- These natives has to be called every frame.
     SetVehicleDensityMultiplierThisFrame(1.0)
     SetPedDensityMultiplierThisFrame(1.0)
+    SetPedPopulationBudget(1.0)
     SetRandomVehicleDensityMultiplierThisFrame(1.0)
     SetParkedVehicleDensityMultiplierThisFrame(1.0)
     -- SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
