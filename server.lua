@@ -12,23 +12,14 @@ AddEventHandler("chatMessage", function(p, color, msg)
         elseif cmd == "/weapon" then
           TriggerClientEvent("RC:spawngun", p, fullcmd[2])
           CancelEvent()
-        elseif cmd == "/emote" then
-          TriggerClientEvent("RC:emote", p, fullcmd[2])
-          CancelEvent()
         elseif cmd == "/wanted" then
           TriggerClientEvent("RC:wanted", p, fullcmd[2])
           CancelEvent()
         elseif cmd == "/die" then
           TriggerClientEvent("RC:suicide", p)
           CancelEvent()
-        elseif cmd == "/seat" then
-          TriggerClientEvent("RC:seat", p, fullcmd[2])
-          CancelEvent()
         elseif cmd == "/model" then
           TriggerClientEvent("RC:changemodel", p, fullcmd[2])
-          CancelEvent()
-        elseif cmd == "/lock" then
-          TriggerClientEvent("RC:lockcar", p)
           CancelEvent()
         elseif cmd == "/bg" then
           TriggerClientEvent("RC:battleground", p)

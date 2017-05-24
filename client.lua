@@ -1,12 +1,9 @@
 RegisterNetEvent("RC:spawncar")
 RegisterNetEvent("RC:spawngun")
-RegisterNetEvent("RC:emote")
 RegisterNetEvent("RC:wanted")
 RegisterNetEvent("RC:suicide")
-RegisterNetEvent("RC:seat")
 RegisterNetEvent("RC:gps")
 RegisterNetEvent("RC:changemodel")
-RegisterNetEvent("RC:lockcar")
 RegisterNetEvent("RC:battleground")
 
 Citizen.CreateThread(function()
@@ -108,8 +105,8 @@ Citizen.CreateThread(function()
   
   -- Trevor: 1985.48132, 3828.76757, 32.5
   -- Trash or Tidy. Only choose one.
-    RequestIpl("TrevorsTrailerTrash")
-    --RequestIpl("trevorstrailertidy")
+    -- RequestIpl("TrevorsTrailerTrash")
+    RequestIpl("trevorstrailertidy")
   
   -- Heist Jewel: -637.20159 -239.16250 38.1
     RequestIpl("post_hiest_unload")
@@ -183,208 +180,22 @@ Citizen.CreateThread(function()
   -- Zancudo Gates (GTAO like): -1600.30100000, 2806.73100000, 18.79683000
     RequestIpl("CS3_07_MPGates")
     
-  -- Optional
-    -- Bahama Mamas: -1388.0013, -618.41967, 30.819599
-      RequestIpl("hei_sm_16_interior_v_bahama_milo_")
-    
-    -- Lost safehouse: 984.1552, -95.3662, 74.50
-      RequestIpl("bkr_bi_hw1_13_int")
-    
-    -- Heist Carrier: 3082.3117 -4717.1191 15.2622
-      RequestIpl("hei_carrier")
-      RequestIpl("hei_carrier_distantlights")
-      RequestIpl("hei_Carrier_int1")
-      RequestIpl("hei_Carrier_int2")
-      RequestIpl("hei_Carrier_int3")
-      RequestIpl("hei_Carrier_int4")
-      RequestIpl("hei_Carrier_int5")
-      RequestIpl("hei_Carrier_int6")
-      RequestIpl("hei_carrier_lodlights")
-      RequestIpl("hei_carrier_slod")
-    
-    -- Heist Yatch: -2043.974,-1031.582, 11.981
-      RequestIpl("hei_yacht_heist")
-      RequestIpl("hei_yacht_heist_Bar")
-      RequestIpl("hei_yacht_heist_Bedrm")
-      RequestIpl("hei_yacht_heist_Bridge")
-      RequestIpl("hei_yacht_heist_DistantLights")
-      RequestIpl("hei_yacht_heist_enginrm")
-      RequestIpl("hei_yacht_heist_LODLights")
-      RequestIpl("hei_yacht_heist_Lounge")
-    
-    -- Red Carpet: 300.5927, 199.7589, 104.3776
-      --RequestIpl("redCarpet") 
-
-    -- UFO
-    -- Zancudo: -2051.99463, 3237.05835, 1456.97021
-    -- Hippie base: 2490.47729, 3774.84351, 2414.035
-    -- Chiliad: 501.52880000, 5593.86500000, 796.23250000
-      -- RequestIpl("ufo")
-      -- RequestIpl("ufo_eye")
-      -- RequestIpl("ufo_lod")
-      
-    -- North Yankton: 3217.697, -4834.826, 111.8152
-      -- RequestIpl("prologue01")
-      -- RequestIpl("prologue01c")
-      -- RequestIpl("prologue01d")
-      -- RequestIpl("prologue01e")
-      -- RequestIpl("prologue01f")
-      -- RequestIpl("prologue01g")
-      -- RequestIpl("prologue01h")
-      -- RequestIpl("prologue01i")
-      -- RequestIpl("prologue01j")
-      -- RequestIpl("prologue01k")
-      -- RequestIpl("prologue01z")
-      -- RequestIpl("prologue02")
-      -- RequestIpl("prologue03")
-      -- RequestIpl("prologue03b")
-      -- RequestIpl("prologue04")
-      -- RequestIpl("prologue04b")
-      -- RequestIpl("prologue05")
-      -- RequestIpl("prologue05b")
-      -- RequestIpl("prologue06")
-      -- RequestIpl("prologue06b")
-      -- RequestIpl("prologue06_int")
-      -- RequestIpl("prologuerd")
-      -- RequestIpl("prologuerdb ")
-      -- RequestIpl("prologue_DistantLights")
-      -- RequestIpl("prologue_LODLights")
-      -- RequestIpl("prologue_m2_door")
+  -- Lost safehouse: 984.1552, -95.3662, 74.50
+    RequestIpl("bkr_bi_hw1_13_int")
+  
+  -- Heist Carrier: 3082.3117 -4717.1191 15.2622
+    RequestIpl("hei_carrier")
+    RequestIpl("hei_carrier_distantlights")
+    RequestIpl("hei_Carrier_int1")
+    RequestIpl("hei_Carrier_int2")
+    RequestIpl("hei_Carrier_int3")
+    RequestIpl("hei_Carrier_int4")
+    RequestIpl("hei_Carrier_int5")
+    RequestIpl("hei_Carrier_int6")
+    RequestIpl("hei_carrier_lodlights")
+    RequestIpl("hei_carrier_slod")
 
 end)
-
-local emotes = {
-  {name="hiker", id="WORLD_HUMAN_HIKER"},
-  {name="coffee", id="WORLD_HUMAN_AA_COFFEE"},
-  {name="smoke", id="WORLD_HUMAN_AA_SMOKE"},
-  {name="binoculars", id="WORLD_HUMAN_BINOCULARS"},
-  {name="bumsign", id="WORLD_HUMAN_BUM_FREEWAY"},
-  {name="bumlay", id="WORLD_HUMAN_BUM_SLUMPED"},
-  {name="bumstand", id="WORLD_HUMAN_BUM_STANDING"},
-  {name="bumwash", id="WORLD_HUMAN_BUM_WASH"},
-  {name="parking", id="WORLD_HUMAN_CAR_PARK_ATTENDANT"},
-  {name="cheer", id="WORLD_HUMAN_CHEERING"},
-  {name="clipboard", id="WORLD_HUMAN_CLIPBOARD"},
-  {name="drill", id="WORLD_HUMAN_CONST_DRILL"},
-  {name="cop", id="WORLD_HUMAN_COP_IDLES"},
-  {name="drinking", id="WORLD_HUMAN_DRINKING"},
-  {name="drugdealer", id="WORLD_HUMAN_DRUG_DEALER"},
-  {name="drugdealer2", id="WORLD_HUMAN_DRUG_DEALER_HARD"},
-  {name="phonecam", id="WORLD_HUMAN_MOBILE_FILM_SHOCKING"},
-  {name="leafblower", id="WORLD_HUMAN_GARDENER_LEAF_BLOWER"},
-  {name="gardening", id="WORLD_HUMAN_GARDENER_PLANT"},
-  {name="golf", id="WORLD_HUMAN_GOLF_PLAYER"},
-  {name="alert", id="WORLD_HUMAN_GUARD_PATROL"},
-  {name="guard", id="WORLD_HUMAN_GUARD_STAND"},
-  {name="armystand", id="WORLD_HUMAN_GUARD_STAND_ARMY"},
-  {name="hammer", id="WORLD_HUMAN_HAMMERING"},
-  {name="hangout", id="WORLD_HUMAN_HANG_OUT_STREET"},
-  {name="hikerstand", id="WORLD_HUMAN_HIKER_STANDING"},
-  {name="statue", id="WORLD_HUMAN_HUMAN_STATUE"},
-  {name="janitor", id="WORLD_HUMAN_JANITOR"},
-  {name="joginplace", id="WORLD_HUMAN_JOG_STANDING"},
-  {name="lean", id="WORLD_HUMAN_LEANING"},
-  {name="clean", id="WORLD_HUMAN_MAID_CLEAN"},
-  {name="flex", id="WORLD_HUMAN_MUSCLE_FLEX"},
-  {name="weights", id="WORLD_HUMAN_MUSCLE_FREE_WEIGHTS"},
-  {name="musician", id="WORLD_HUMAN_MUSICIAN"},
-  {name="photo", id="WORLD_HUMAN_PAPARAZZI"},
-  {name="party", id="WORLD_HUMAN_PARTYING"},
-  {name="picnic", id="WORLD_HUMAN_PICNIC"},
-  {name="femme", id="WORLD_HUMAN_PROSTITUTE_HIGH_CLASS"},
-  {name="femmedrunk", id="WORLD_HUMAN_PROSTITUTE_LOW_CLASS"},
-  {name="pushups", id="WORLD_HUMAN_PUSH_UPS"},
-  {name="sit", id="WORLD_HUMAN_SEAT_LEDGE"},
-  {name="siteat", id="WORLD_HUMAN_SEAT_LEDGE_EATING"},
-  {name="sitsteps", id="WORLD_HUMAN_SEAT_STEPS"},
-  {name="sitwall", id="WORLD_HUMAN_SEAT_WALL"},
-  {name="sitwalleat", id="WORLD_HUMAN_SEAT_WALL_EATING"},
-  {name="sitwalltablet", id="WORLD_HUMAN_SEAT_WALL_TABLET"},
-  {name="flashlight", id="WORLD_HUMAN_SECURITY_SHINE_TORCH"},
-  {name="situps", id="WORLD_HUMAN_SIT_UPS"},
-  {name="smoke", id="WORLD_HUMAN_SMOKING"},
-  {name="toke", id="WORLD_HUMAN_SMOKING_POT"},
-  {name="fire", id="WORLD_HUMAN_STAND_FIRE"},
-  {name="fishing", id="WORLD_HUMAN_STAND_FISHING"},
-  {name="impatient", id="WORLD_HUMAN_STAND_IMPATIENT"},
-  {name="impatient2", id="WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT"},
-  {name="mobile", id="WORLD_HUMAN_STAND_MOBILE"},
-  {name="mobile2", id="WORLD_HUMAN_STAND_MOBILE_UPRIGHT"},
-  {name="watchstrip", id="WORLD_HUMAN_STRIP_WATCH_STAND"},
-  {name="stupor", id="WORLD_HUMAN_STUPOR"},
-  {name="laytummy", id="WORLD_HUMAN_SUNBATHE"},
-  {name="layback", id="WORLD_HUMAN_SUNBATHE_BACK"},
-  {name="tennis", id="WORLD_HUMAN_TENNIS_PLAYER"},
-  {name="map", id="WORLD_HUMAN_TOURIST_MAP"},
-  {name="mobile3", id="WORLD_HUMAN_TOURIST_MOBILE"},
-  {name="mechanic", id="WORLD_HUMAN_VEHICLE_MECHANIC"},
-  {name="weld", id="WORLD_HUMAN_WELDING"},
-  {name="windowshop", id="WORLD_HUMAN_WINDOW_SHOP_BROWSE"},
-  {name="yoga", id="WORLD_HUMAN_YOGA"},
-  {name="atm", id="PROP_HUMAN_ATM"},
-  {name="bbq", id="PROP_HUMAN_BBQ"},
-  {name="dumpsterdive", id="PROP_HUMAN_BUM_BIN"},
-  {name="bumshoppingcart", id="PROP_HUMAN_BUM_SHOPPING_CART"},
-  {name="chinups", id="PROP_HUMAN_MUSCLE_CHIN_UPS"},
-  {name="chinups2", id="PROP_HUMAN_MUSCLE_CHIN_UPS_ARMY"},
-  {name="chinups3", id="PROP_HUMAN_MUSCLE_CHIN_UPS_PRISON"},
-  {name="parkingmeter", id="PROP_HUMAN_PARKING_METER"},
-  {name="sitarmchair", id="PROP_HUMAN_SEAT_ARMCHAIR"},
-  {name="sitbar", id="PROP_HUMAN_SEAT_BAR"},
-  {name="sitbench", id="PROP_HUMAN_SEAT_BENCH"},
-  {name="sitbenchdrink", id="PROP_HUMAN_SEAT_BENCH_DRINK"},
-  {name="sitbenchbeer", id="PROP_HUMAN_SEAT_BENCH_DRINK_BEER"},
-  {name="sitbenchfood", id="PROP_HUMAN_SEAT_BENCH_FOOD"},
-  {name="waitforbus", id="PROP_HUMAN_SEAT_BUS_STOP_WAIT"},
-  {name="sitchair", id="PROP_HUMAN_SEAT_CHAIR"},
-  {name="westysit", id="WORLD_DOG_SITTING_SMALL"},
-  {name="westybark", id="WORLD_DOG_BARKING_SMALL"},
-  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_DRINK"},
-  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_DRINK_BEER"},
-  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_FOOD"},
-  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_UPRIGHT"},
-  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"},
-  -- {name="", id="PROP_HUMAN_SEAT_COMPUTER"},
-  -- {name="", id="PROP_HUMAN_SEAT_DECKCHAIR"},
-  -- {name="", id="PROP_HUMAN_SEAT_DECKCHAIR_DRINK"},
-  -- {name="", id="PROP_HUMAN_SEAT_MUSCLE_BENCH_PRESS"},
-  -- {name="", id="PROP_HUMAN_SEAT_MUSCLE_BENCH_PRESS_PRISON"},
-  -- {name="", id="PROP_HUMAN_SEAT_SEWING"},
-  -- {name="", id="PROP_HUMAN_SEAT_STRIP_WATCH"},
-  -- {name="", id="PROP_HUMAN_SEAT_SUNLOUNGER"},
-  -- {name="", id="PROP_HUMAN_STAND_IMPATIENT"},
-  -- {name="", id="CODE_HUMAN_COWER"},
-  -- {name="", id="CODE_HUMAN_CROSS_ROAD_WAIT"},
-  -- {name="", id="CODE_HUMAN_PARK_CAR"},
-  -- {name="", id="PROP_HUMAN_MOVIE_BULB"},
-  -- {name="", id="PROP_HUMAN_MOVIE_STUDIO_LIGHT"},
-  {name="kneel", id="CODE_HUMAN_MEDIC_KNEEL"}
-  -- {name="", id="CODE_HUMAN_MEDIC_TEND_TO_DEAD"},
-  -- {name="", id="CODE_HUMAN_MEDIC_TIME_OF_DEATH"},
-  -- {name="", id="CODE_HUMAN_POLICE_CROWD_CONTROL"},
-  -- {name="", id="CODE_HUMAN_POLICE_INVESTIGATE"},
-  -- {name="", id="CODE_HUMAN_STAND_COWER"},
-  -- {name="", id="EAR_TO_TEXT"},
-  -- {name="", id="EAR_TO_TEXT_FAT"}
-
-  -- {name="", id="WORLD_VEHICLE_ATTRACTOR"},
-  -- {name="", id="WORLD_VEHICLE_BICYCLE_MOUNTAIN"},
-  -- {name="", id="WORLD_VEHICLE_BIKE_OFF_ROAD_RACE"},
-  -- {name="", id="WORLD_VEHICLE_BIKER"},
-  -- {name="", id="WORLD_VEHICLE_CONSTRUCTION_PASSENGERS"},
-  -- {name="", id="WORLD_VEHICLE_CONSTRUCTION_SOLO"},
-  -- {name="", id="WORLD_VEHICLE_DRIVE_PASSENGERS"},
-  -- {name="", id="WORLD_VEHICLE_DRIVE_SOLO"},
-  -- {name="", id="WORLD_VEHICLE_EMPTY"},
-  -- {name="", id="WORLD_VEHICLE_PARK_PARALLEL"},
-  -- {name="", id="WORLD_VEHICLE_PARK_PERPENDICULAR_NOSE_IN"},
-  -- {name="", id="WORLD_VEHICLE_POLICE_BIKE"},
-  -- {name="", id="WORLD_VEHICLE_POLICE_CAR"},
-  -- {name="", id="WORLD_VEHICLE_POLICE_NEXT_TO_CAR"},
-  -- {name="", id="WORLD_VEHICLE_SALTON_DIRT_BIKE"},
-  -- {name="", id="WORLD_VEHICLE_TRUCK_LOGS"}
-
-}
 
 AddEventHandler("RC:spawncar", function(carName)
   local myPed = GetPlayerPed(-1)
@@ -407,8 +218,6 @@ AddEventHandler("RC:spawncar", function(carName)
     -- Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(spawned_car))
   end
 
-  -- TaskWarpPedIntoVehicle(myPed, spawned_car, -1)
-  -- TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Spawned " .. firstToUpper(string.lower(GetDisplayNameFromVehicleModel(vehicle))))
   TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Spawned " .. GetLabelText(GetDisplayNameFromVehicleModel(vehicle)))
 end)
 
@@ -436,47 +245,9 @@ AddEventHandler("RC:spawngun", function(gunName)
     local isGun = IsWeaponValid(gun)
     if isGun then
       GiveWeaponToPed(myPed, gun, 1000, 0, false)
-      SetPedInfiniteAmmo(myPed, 1, gun)
-    --else
-    --TriggerEvent('chatMessage', 'GUN', {255, 255, 255}, GetLabelText(getWeapontypeGroup(GetSelectedPedWeapon(playerPed))))
+      -- SetPedInfiniteAmmo(myPed, 1, gun)
     end
   end)
-end)
-
--- SetPedInfiniteAmmo(ped, true/false, weapon_hash)
--- GetAmmoInPedWeapon(ped, weapon_hash)
--- GetPedAmmoType
--- AddAmmoToPed
--- GetMaxAmmo
-
-AddEventHandler("RC:emote", function(emote)
-  local myPed = GetPlayerPed(-1)
-  
-  if emote then
-    emote = string.lower(emote)
-    
-    if emote == "list" then
-      local list = "Emotes: "
-      for i, v in ipairs(emotes) do
-        list = list .. v['name'] .. ", "
-      end
-      list = list:sub(1, -3) .. "."
-      TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, list)
-    else
-      local match = has_value(emotes, emote)
-
-      if match then
-        TaskStartScenarioInPlace(myPed, emotes[match]['id'], 0, false)
-        TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Starting " .. emote .. " emote.")
-      else
-        TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Emote " .. emote .. " not found.")
-      end
-    end
-  else
-    ClearPedTasks(myPed);
-    ClearPedSecondaryTask(myPed)
-    TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Stopping current emote.")
-  end
 end)
 
 AddEventHandler("RC:wanted", function(level)
@@ -498,18 +269,6 @@ AddEventHandler("RC:suicide", function()
   SetEntityHealth(myPed, 0)
 end)
 
-AddEventHandler("RC:seat", function(seat)
-  local myPed = GetPlayerPed(-1)
-  local veh = GetVehiclePedIsIn(myPed)
-  seat = tonumber(seat)
-  if seat and veh then
-    TaskWarpPedIntoVehicle(myPed, veh, seat)
-    TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Moved to seat " .. seat .. ".")
-  else
-    TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Provide a seat number to change seats!")
-  end
-end)
-
 AddEventHandler("RC:gps", function()
   local myPed = GetPlayerPed(-1)
   
@@ -525,79 +284,22 @@ AddEventHandler("RC:gps", function()
   TriggerEvent('chatMessage', 'Facing', {255, 255, 255}, tostring(heading))
 end)
 
-AddEventHandler("RC:lockcar", function()
-  local myPed = GetPlayerPed(-1)
-  local currentVeh = GetVehiclePedIsIn(myPed)
-  local veh = false
-  if DoesEntityExist(currentVeh) then
-    veh = currentVeh
-  else
-    local lastVeh = GetPlayersLastVehicle()
-    if DoesEntityExist(lastVeh) then
-      veh = lastVeh
-      PlaySoundFromEntity(-1, "ARM_WRESTLING_ARM_IMPACT_MASTER", veh, 0, 0, 0);
-    end
-  end
-
-  if DoesEntityExist(veh) then
-    local lockstatus = GetVehicleDoorsLockedForPlayer(veh, myPed)
-    local carName = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
-    if lockstatus == false then
-      SetVehicleDoorsLockedForAllPlayers(veh, true)
-      TriggerEvent("chatMessage", "SYSTEM", {255, 255, 255}, "Locked " .. carName .. " doors.")
-    else
-      SetVehicleDoorsLockedForAllPlayers(veh, false)
-      TriggerEvent("chatMessage", "SYSTEM", {255, 255, 255}, "Unlocked " .. carName .. " doors.")
-    end
-  else
-    TriggerEvent("chatMessage", "SYSTEM", {255, 255, 255}, "You have no vehicle to lock.")
-  end
-  
-end)
-
 AddEventHandler("RC:battleground", function()
   local myPed = GetPlayerPed(-1)
 
   -- drawMarker(type, posX, posY, posZ, dirX, dirY, dirZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, colorR, colorG, colorB, alpha, bobUpAndDown, faceCamera, p19, rotate, textureDict, textureName, drawOnEnts)
-  TriggerEvent("chatMessage", "SYSTEM", {255, 255, 255}, "Battleground mod activated.")
+  TriggerEvent("chatMessage", "BG", {255, 255, 255}, "Battleground mod activated.")
   
-end)
-
-function firstToUpper(str)
-    return (str:gsub("^%l", string.upper))
-end
-
-function has_value (tab, val)
-    for index, value in ipairs(tab) do
-        if value['name'] == val then
-            return index
-        end
-    end
-    return false
-end
-
-function debugMSG(msg)
-  TriggerEvent('chatMessage', 'DEBUG', {255, 255, 255}, msg)
-end
-
-Citizen.CreateThread(function()
-	while true do
-		Wait(1)
-	end
 end)
 
 Citizen.CreateThread(function()
   while true do
     -- These natives has to be called every frame.
-    SetVehicleDensityMultiplierThisFrame(0.0)
+    SetVehicleDensityMultiplierThisFrame(1.0)
     SetPedDensityMultiplierThisFrame(1.0)
     SetRandomVehicleDensityMultiplierThisFrame(1.0)
-    SetParkedVehicleDensityMultiplierThisFrame(10.0)
-    SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
-    
-    local playerPed = GetPlayerPed(-1)
-    local pos = GetEntityCoords(playerPed) 
-    -- RemoveVehiclesFromGeneratorsInArea(pos['x'] - 500.0, pos['y'] - 500.0, pos['z'] - 500.0, pos['x'] + 500.0, pos['y'] + 500.0, pos['z'] + 500.0);
+    SetParkedVehicleDensityMultiplierThisFrame(1.0)
+    -- SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
 
     -- Hide Crosshair
     if IsHudComponentActive(14) then
@@ -605,17 +307,13 @@ Citizen.CreateThread(function()
     end
 
     -- Hide Minimap unless player is in vehicle
-    if IsPedInVehicle(playerPed) then
+    if IsPedInVehicle(GetPlayerPed(-1)) then
       -- SetDrawMapVisible(1)
       DisplayRadar(1)
     else
       -- SetDrawMapVisible(0)
       DisplayRadar(0)
     end
-        
-    -- These natives do not have to be called everyframe.
-    SetGarbageTrucks(0)
-    SetRandomBoats(0)
       
     Citizen.Wait(1)
   end
