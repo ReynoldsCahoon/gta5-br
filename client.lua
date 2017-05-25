@@ -286,42 +286,64 @@ end)
 
 AddEventHandler("RC:battleground", function()
 
-  local bgplanes = {}
-  bgplanes[frontplane] = {x="3062.3767089844", y="-4730.7602539063", z="15.1020812988", heading="25.3556747365"}
-  bgplanes[middleplane] = {x="3079.4516601563", y="-4766.7919921875", z="16.1024532318", heading="25.3556747365"}
-  bgplanes[rearplane] = {x="3096.6818847656", y="-4803.0854492188", z="16.1010742188", heading="25.3556747365"}
+  local bgplanes = {
+    frontplane = {x=3062.3767089844, y=-4730.7602539063, z=15.1020812988, heading=25.3556747365},
+    middleplane = {x=3079.4516601563, y=-4766.7919921875, z=16.1024532318, heading=25.3556747365},
+    rearplane = {x=3096.6818847656, y=-4803.0854492188, z=16.1010742188, heading=25.3556747365}
+  }
   local planeModel = GetHashKey("titan")
 
+  RequestModel(planeModel)
   while (not HasModelLoaded(planeModel)) do 
     RequestModel(planeModel)
     Citizen.Wait(0)
   end
 
-  local frontplane = CreateVehicle(planeModel, bgplanes[frontplane][x], bgplanes[frontplane][y], bgplanes[frontplane][z], bgplanes[frontplane][heading], true, false)
-  local middleplane = CreateVehicle(planeModel, bgplanes[middleplane][x], bgplanes[middleplane][y], bgplanes[middleplane][z], bgplanes[middleplane][heading], true, false)
-  local rearplane = CreateVehicle(planeModel, bgplanes[rearplane][x], bgplanes[rearplane][y], bgplanes[rearplane][z], bgplanes[rearplane][heading], true, false)
+  local frontplane = CreateVehicle(planeModel, bgplanes['frontplane']['x'], bgplanes['frontplane']['y'], bgplanes['frontplane']['z'], bgplanes['frontplane']['heading'], true, false)
+  local middleplane = CreateVehicle(planeModel, bgplanes['middleplane']['x'], bgplanes['middleplane']['y'], bgplanes['middleplane']['z'], bgplanes['middleplane']['heading'], true, false)
+  local rearplane = CreateVehicle(planeModel, bgplanes['rearplane']['x'], bgplanes['rearplane']['y'], bgplanes['rearplane']['z'], bgplanes['rearplane']['heading'], true, false)
+
   SetVehicleOnGroundProperly(frontplane)
   SetVehicleOnGroundProperly(middleplane)
   SetVehicleOnGroundProperly(rearplane)
   SetModelAsNoLongerNeeded(planeModel)
+
   SetVehicleDoorsLockedForAllPlayers(frontplane,true)
   SetVehicleDoorsLockedForAllPlayers(middleplane,true)
   SetVehicleDoorsLockedForAllPlayers(rearplane,true)
   
-  local bgspawn = {x="3043.4729003906", y="-4637.8989257813", z="15.2614269257", heading="193.9027099609"}
-  local playerModel = GetHashKey("FreeModeMale01")
+  -- Set Player Model to Freemode Male
 
+  local playerModel = GetHashKey("mp_m_freemode_01")
+
+  RequestModel(playerModel)
   while (not HasModelLoaded(playerModel)) do 
     RequestModel(playerModel)
     Citizen.Wait(0)
   end
 
   SetPlayerModel(PlayerId(), playerModel)
+  -- SetPedDefaultComponentVariation(myPed)
+  -- SetPedRandomComponentVariation(myPed, true)
+  --SET_PED_COMPONENT_VARIATION(Ped ped, int componentId, int drawableId, int textureId, int paletteId)
+    -- SetPedComponentVariation(myPed, 0, 0, 0, 2) --Face
+    -- SetPedComponentVariation(myPed, 2, 11, 4, 2) --Hair 
+    -- SetPedComponentVariation(myPed, 4, 1, 5, 2) -- Pantalon
+    -- SetPedComponentVariation(myPed, 6, 1, 0, 2) -- Shoes
+    -- SetPedComponentVariation(myPed, 11, 7, 2, 2) -- Jacket
   SetModelAsNoLongerNeeded(playerModel)
+
+  -- Teleport Player to Ship (Not Working)
+
+  local bgspawn = {x=3043.4729003906, y=-4637.8989257813, z=15.2614269257, heading=193.9027099609}
+
+  SetEntityCoords(myPed, bgspawn['x'], bgspawn['y'], bgspawn['z'])
+  SetEntityHeading(myPed, bgspawn['heading'])
 
   TriggerEvent("chatMessage", "BG", {255, 255, 255}, "The battle will begin shortly.")
 
   -- Warp Players into the planes TaskWarpPedIntoVehicle(ped, vehicle, seat)
+  
   -- If possible, run all peds to the planes, rather than teleporting
 
   -- Make Peds Drop Weapons, might make it dependant on ped group
