@@ -313,7 +313,8 @@ AddEventHandler("RC:battleground", function()
   SetVehicleDoorsLockedForAllPlayers(rearplane,true)
   
   -- Set Player Model to Freemode Male
-
+  
+  local myPed = GetPlayerPed(-1)
   local playerModel = GetHashKey("mp_m_freemode_01")
 
   RequestModel(playerModel)
@@ -324,7 +325,7 @@ AddEventHandler("RC:battleground", function()
 
   SetPlayerModel(PlayerId(), playerModel)
   -- SetPedDefaultComponentVariation(myPed)
-  -- SetPedRandomComponentVariation(myPed, true)
+  SetPedRandomComponentVariation(myPed, true)
   --SET_PED_COMPONENT_VARIATION(Ped ped, int componentId, int drawableId, int textureId, int paletteId)
     -- SetPedComponentVariation(myPed, 0, 0, 0, 2) --Face
     -- SetPedComponentVariation(myPed, 2, 11, 4, 2) --Hair 
