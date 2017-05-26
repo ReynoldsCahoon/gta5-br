@@ -396,17 +396,47 @@ AddEventHandler("RC:battleground", function()
 
   TriggerEvent("chatMessage", "BG", {255, 255, 255}, "The battle will begin shortly.")
 
-  -- Warp Players into the planes TaskWarpPedIntoVehicle(ped, vehicle, seat)
+  -- SetVehicleDoorOpen(Vehicle vehicle, int doorIndex, BOOL loose, BOOL openInstantly)
+  -- doorIndex:
+  -- 0 = Front Left Door
+  -- 1 = Front Right Door
+  -- 2 = Back Left Door
+  -- 3 = Back Right Door
+  -- 4 = Hood
+  -- 5 = Trunk
+  -- 6 = Back
+  -- 7 = Back2
+
+  -- Open Plane Cargo Bay Door
+  SetVehicleDoorOpen(frontplane, 6, 0, 0)
 
   Citizen.Wait(5000)
-  
-  -- If possible, run all peds to the planes, rather than teleporting
+
+  if IsPedSwimming(myPed) then -- Warp Players into the planes if they've jumped into the ocean
+    TaskWarpPedIntoVehicle(myPed, frontplane, 1)
+  else -- If possible, run all peds to the planes, rather than teleporting
+    -- TaskEnterVehicle(ped, vehicle, timeout, seat, float speed, 1, 0)
+    TaskEnterVehicle(myPed, frontplane, 20000, 1, 1.5, 1, 0)
+  end
+
+  -- Close Plane Cargo Bay Door
+  SetVehicleDoorShut(frontplane, 6, 0, 0)
+
+  -- Planes fly to coords
+    -- Set planes to fly off deck with correct heading
+      -- TaskVehicleDriveToCoord
+    -- Check if they've achieved flight (hopefully confirms a successful takeoff)
+      -- IsPedInFlyingVehicle
+    -- When they're successfully airborn, fly to final destination.
+      -- TaskVehicleDriveToCoordLongrange
+      -- TaskGoToCoordAnyMeansExtraParamsWithCruiseSpeed
 
   -- Make Peds Drop Weapons, might make it dependant on ped group
   -- (Standard civilians pistols? Gang/guards/police shotungs/rifles/smgs?)
   -- SetPedDropsWeapon
   -- SetPedDropsInventoryWeapon
 
+  -- SetBlipScale(blip, float scale)
   -- drawMarker(type, posX, posY, posZ, dirX, dirY, dirZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, colorR, colorG, colorB, alpha, bobUpAndDown, faceCamera, p19, rotate, textureDict, textureName, drawOnEnts)
   
 end)
