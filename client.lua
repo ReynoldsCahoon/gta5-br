@@ -5,6 +5,7 @@ RegisterNetEvent("RC:suicide")
 RegisterNetEvent("RC:gps")
 RegisterNetEvent("RC:changemodel")
 RegisterNetEvent("RC:battleground")
+RegisterNetEvent("RC:lockcar")
 
 Citizen.CreateThread(function()
 
@@ -234,7 +235,7 @@ AddEventHandler("RC:changemodel", function(model)
     TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Changed Player Model to " .. model)
   else
     model = GetEntityModel(myPed)
-    TriggerEvent('chatMessage', 'MODEL', {255, 255, 255}, tostring(model))
+    TriggerEvent('chatMessage', 'MODEL', {255, 255, 255}, GetLabelText(model))
   end
 end)
 
@@ -248,6 +249,36 @@ AddEventHandler("RC:spawngun", function(gunName)
       -- SetPedInfiniteAmmo(myPed, 1, gun)
     end
   end)
+end)
+
+AddEventHandler("RC:lockcar", function()
+  local myPed = GetPlayerPed(-1)
+  local currentVeh = GetVehiclePedIsIn(myPed)
+  local veh = false
+  if DoesEntityExist(currentVeh) then
+    veh = currentVeh
+  else
+    local lastVeh = GetPlayersLastVehicle()
+    if DoesEntityExist(lastVeh) then
+      veh = lastVeh
+      PlaySoundFromEntity(-1, "ARM_WRESTLING_ARM_IMPACT_MASTER", veh, 0, 0, 0);
+    end
+  end
+
+  if DoesEntityExist(veh) then
+    local lockstatus = GetVehicleDoorsLockedForPlayer(veh, myPed)
+    local carName = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
+    if lockstatus == false then
+      SetVehicleDoorsLockedForAllPlayers(veh, true)
+      TriggerEvent("chatMessage", "SYSTEM", {255, 255, 255}, "Locked " .. carName .. " doors.")
+    else
+      SetVehicleDoorsLockedForAllPlayers(veh, false)
+      TriggerEvent("chatMessage", "SYSTEM", {255, 255, 255}, "Unlocked " .. carName .. " doors.")
+    end
+  else
+    TriggerEvent("chatMessage", "SYSTEM", {255, 255, 255}, "You have no vehicle to lock.")
+  end
+  
 end)
 
 AddEventHandler("RC:wanted", function(level)
@@ -311,11 +342,32 @@ AddEventHandler("RC:battleground", function()
   SetVehicleDoorsLockedForAllPlayers(frontplane,true)
   SetVehicleDoorsLockedForAllPlayers(middleplane,true)
   SetVehicleDoorsLockedForAllPlayers(rearplane,true)
+
+  -- Spawn Plane Pilots
+
+  local pilot = GetHashKey("s_m_m_pilot_02")
+  RequestModel(pilot)
+  while (not HasModelLoaded(pilot)) do 
+    RequestModel(pilot)
+    Citizen.Wait(0)
+  end
+  CreatePedInsideVehicle(frontplane, 26, pilot, -1, 0, 0)
+  CreatePedInsideVehicle(middleplane, 26, pilot, -1, 0, 0)
+  CreatePedInsideVehicle(rearplane, 26, pilot, -1, 0, 0)
+  SetModelAsNoLongerNeeded(pilot)
+
+
+  -- Teleport Player to Ship
+
+  local myPed = GetPlayerPed(-1)
+  local bgspawn = {x=3043.4729003906, y=-4637.8989257813, z=15.2614269257, heading=193.9027099609}
+
+  SetEntityCoords(myPed, bgspawn['x'], bgspawn['y'], bgspawn['z'], 1, 0, 0, 1)
+  SetEntityHeading(myPed, bgspawn['heading'])
   
   -- Set Player Model to Freemode Male
-  
-  local myPed = GetPlayerPed(-1)
   local playerModel = GetHashKey("mp_m_freemode_01")
+  -- local playerModel = GetHashKey("a_c_westy")
 
   RequestModel(playerModel)
   while (not HasModelLoaded(playerModel)) do 
@@ -324,26 +376,29 @@ AddEventHandler("RC:battleground", function()
   end
 
   SetPlayerModel(PlayerId(), playerModel)
-  -- SetPedDefaultComponentVariation(myPed)
-  SetPedRandomComponentVariation(myPed, true)
-  --SET_PED_COMPONENT_VARIATION(Ped ped, int componentId, int drawableId, int textureId, int paletteId)
-    -- SetPedComponentVariation(myPed, 0, 0, 0, 2) --Face
-    -- SetPedComponentVariation(myPed, 2, 11, 4, 2) --Hair 
-    -- SetPedComponentVariation(myPed, 4, 1, 5, 2) -- Pantalon
-    -- SetPedComponentVariation(myPed, 6, 1, 0, 2) -- Shoes
-    -- SetPedComponentVariation(myPed, 11, 7, 2, 2) -- Jacket
+  
   SetModelAsNoLongerNeeded(playerModel)
 
-  -- Teleport Player to Ship (Not Working)
+  -- SetPedDefaultComponentVariation(myPed)
+  -- SetPedRandomComponentVariation(myPed, 1)
+  --SET_PED_COMPONENT_VARIATION(Ped ped, int componentId, int drawableId, int textureId, int paletteId)
 
-  local bgspawn = {x=3043.4729003906, y=-4637.8989257813, z=15.2614269257, heading=193.9027099609}
+  for i=0,19 do
+    SetPedComponentVariation(myPed, 0, i, 0, 2)
+    Citizen.Wait(1)
+  end
+  -- SetPedComponentVariation(myPed, 0, 0, 0, 2) --Face
+  -- SetPedComponentVariation(myPed, 2, 11, 4, 2) --Hair 
+  -- SetPedComponentVariation(myPed, 4, 1, 5, 2) -- Pantalon
+  -- SetPedComponentVariation(myPed, 6, 1, 0, 2) -- Shoes
+  -- SetPedComponentVariation(myPed, 11, 7, 2, 2) -- Jacket
 
-  SetEntityCoords(myPed, bgspawn['x'], bgspawn['y'], bgspawn['z'])
-  SetEntityHeading(myPed, bgspawn['heading'])
 
   TriggerEvent("chatMessage", "BG", {255, 255, 255}, "The battle will begin shortly.")
 
   -- Warp Players into the planes TaskWarpPedIntoVehicle(ped, vehicle, seat)
+
+  Citizen.Wait(5000)
   
   -- If possible, run all peds to the planes, rather than teleporting
 

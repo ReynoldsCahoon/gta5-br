@@ -25,6 +25,9 @@ AddEventHandler("chatMessage", function(p, color, msg)
           TriggerClientEvent("RC:battleground", p)
           SetGameType("Battle Royale [OPEN LOBBY]")
           CancelEvent()
+        elseif cmd == "/lock" then
+          TriggerClientEvent("RC:lockcar", p)
+          CancelEvent()
         elseif cmd == "/gps" then
           TriggerClientEvent("RC:gps", p)
           CancelEvent()
