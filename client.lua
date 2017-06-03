@@ -6,100 +6,9 @@ RegisterNetEvent("RC:gps")
 RegisterNetEvent("RC:changemodel")
 RegisterNetEvent("RC:battleground")
 RegisterNetEvent("RC:lockcar")
+RegisterNetEvent("RC:license")
 
 Citizen.CreateThread(function()
-
-  --load unloaded ipl's
-  LoadMpDlcMaps()
-  EnableMpDlcMaps(true)
-  RequestIpl("chop_props")
-  RequestIpl("FIBlobby")
-  RemoveIpl("FIBlobbyfake")
-  RequestIpl("FBI_colPLUG")
-  RequestIpl("FBI_repair")
-  RequestIpl("v_tunnel_hole")
-  RequestIpl("TrevorsMP")
-  RequestIpl("TrevorsTrailer")
-  RequestIpl("TrevorsTrailerTidy")
-  RemoveIpl("farm_burnt")
-  RemoveIpl("farm_burnt_lod")
-  RemoveIpl("farm_burnt_props")
-  RemoveIpl("farmint_cap")
-  RemoveIpl("farmint_cap_lod")
-  RequestIpl("farm")
-  RequestIpl("farmint")
-  RequestIpl("farm_lod")
-  RequestIpl("farm_props")
-  RequestIpl("facelobby")
-  RemoveIpl("CS1_02_cf_offmission")
-  RequestIpl("CS1_02_cf_onmission1")
-  RequestIpl("CS1_02_cf_onmission2")
-  RequestIpl("CS1_02_cf_onmission3")
-  RequestIpl("CS1_02_cf_onmission4")
-  RequestIpl("v_rockclub")
-  RemoveIpl("hei_bi_hw1_13_door")
-  RequestIpl("bkr_bi_hw1_13_int")
-  RequestIpl("ufo")
-  RemoveIpl("v_carshowroom")
-  RemoveIpl("shutter_open")
-  RemoveIpl("shutter_closed")
-  RemoveIpl("shr_int")
-  RemoveIpl("csr_inMission")
-  RequestIpl("v_carshowroom")
-  RequestIpl("shr_int")
-  RequestIpl("shutter_closed")
-  RequestIpl("smboat")
-  RequestIpl("cargoship")
-  RequestIpl("railing_start")
-  RemoveIpl("sp1_10_fake_interior")
-  RemoveIpl("sp1_10_fake_interior_lod")
-  RequestIpl("sp1_10_real_interior")
-  RequestIpl("sp1_10_real_interior_lod")
-  RemoveIpl("id2_14_during_door")
-  RemoveIpl("id2_14_during1")
-  RemoveIpl("id2_14_during2")
-  RemoveIpl("id2_14_on_fire")
-  RemoveIpl("id2_14_post_no_int")
-  RemoveIpl("id2_14_pre_no_int")
-  RemoveIpl("id2_14_during_door")
-  RequestIpl("id2_14_during1")
-  RequestIpl("coronertrash")
-  RequestIpl("Coroner_Int_on")
-  RemoveIpl("Coroner_Int_off")
-  RemoveIpl("bh1_16_refurb")
-  RemoveIpl("jewel2fake")
-  RemoveIpl("bh1_16_doors_shut")
-  RequestIpl("refit_unload")
-  RequestIpl("post_hiest_unload")
-  RequestIpl("Carwash_with_spinners")
-  RequestIpl("ferris_finale_Anim")
-  RemoveIpl("ch1_02_closed")
-  RequestIpl("ch1_02_open")
-  RequestIpl("AP1_04_TriAf01")
-  RequestIpl("CS2_06_TriAf02")
-  RequestIpl("CS4_04_TriAf03")
-  RemoveIpl("scafstartimap")
-  RequestIpl("scafendimap")
-  RemoveIpl("DT1_05_HC_REMOVE")
-  RequestIpl("DT1_05_HC_REQ")
-  RequestIpl("DT1_05_REQUEST")
-  RequestIpl("FINBANK")
-  RemoveIpl("DT1_03_Shutter")
-  RemoveIpl("DT1_03_Gr_Closed")
-  RequestIpl("ex_sm_13_office_01a")
-  RequestIpl("ex_sm_13_office_01b")
-  RequestIpl("ex_sm_13_office_02a")
-  RequestIpl("ex_sm_13_office_02b")
-  RequestIpl("hei_carrier")
-  RequestIpl("hei_carrier_DistantLights")
-  RequestIpl("hei_Carrier_int1")
-  RequestIpl("hei_Carrier_int2")
-  RequestIpl("hei_Carrier_int3")
-  RequestIpl("hei_Carrier_int4")
-  RequestIpl("hei_Carrier_int5")
-  RequestIpl("hei_Carrier_int6")
-  RequestIpl("hei_carrier_LODLights")
-  RequestIpl("bkr_bi_id1_23_door")
 
   -- Simeon: -47.16170 -1115.3327 26.5
     RequestIpl("shr_int")
@@ -281,6 +190,34 @@ AddEventHandler("RC:lockcar", function()
   
 end)
 
+AddEventHandler("RC:license", function(plateText)
+  local myPed = GetPlayerPed(-1)
+  local currentVeh = GetVehiclePedIsIn(myPed)
+  local veh = false
+  if DoesEntityExist(currentVeh) then
+    veh = currentVeh
+  else
+    local lastVeh = GetPlayersLastVehicle()
+    if DoesEntityExist(lastVeh) then
+      veh = lastVeh
+    end
+  end
+
+  if DoesEntityExist(veh) then
+    local carName = GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
+    if plateText then
+      SetVehicleNumberPlateText(veh, plateText)
+      TriggerEvent("chatMessage", "DMV", {255, 255, 255}, "Set " .. carName .. " plate to " .. plateText .. ".")
+    else
+      local currentPlate = GetVehicleNumberPlateText(veh)
+      TriggerEvent("chatMessage", "DMV", {255, 255, 255}, carName .. " plate is " .. currentPlate .. ".")
+    end
+  else
+    TriggerEvent("chatMessage", "DMV", {255, 255, 255}, "You have no vehicle with registered plates.")
+  end
+  
+end)
+
 AddEventHandler("RC:wanted", function(level)
   local myPed = GetPlayerPed(-1)
   level = tonumber(level)
@@ -351,9 +288,12 @@ AddEventHandler("RC:battleground", function()
     RequestModel(pilot)
     Citizen.Wait(0)
   end
-  CreatePedInsideVehicle(frontplane, 26, pilot, -1, 0, 0)
+  CreatePedInsideVehicle(frontplane, 26, pilot, -1, 0, 0) -- Front plane pilot
+  CreatePedInsideVehicle(frontplane, 26, pilot, 0, 0, 0) -- Front plane co-pilot
   CreatePedInsideVehicle(middleplane, 26, pilot, -1, 0, 0)
+  CreatePedInsideVehicle(middleplane, 26, pilot, 0, 0, 0)
   CreatePedInsideVehicle(rearplane, 26, pilot, -1, 0, 0)
+  CreatePedInsideVehicle(rearplane, 26, pilot, 0, 0, 0)
   SetModelAsNoLongerNeeded(pilot)
 
 
@@ -370,23 +310,23 @@ AddEventHandler("RC:battleground", function()
   -- local playerModel = GetHashKey("a_c_westy")
 
   RequestModel(playerModel)
-  while (not HasModelLoaded(playerModel)) do 
-    RequestModel(playerModel)
-    Citizen.Wait(0)
+  while (not HasModelLoaded(playerModel)) do
+    Citizen.Wait(1)
   end
 
   SetPlayerModel(PlayerId(), playerModel)
   
   SetModelAsNoLongerNeeded(playerModel)
 
-  -- SetPedDefaultComponentVariation(myPed)
-  -- SetPedRandomComponentVariation(myPed, 1)
+  SetPedDefaultComponentVariation(GetPlayerPed(-1))
+  -- SetPedRandomComponentVariation(GetPlayerPed(-1), 1)
   --SET_PED_COMPONENT_VARIATION(Ped ped, int componentId, int drawableId, int textureId, int paletteId)
 
-  for i=0,19 do
-    SetPedComponentVariation(myPed, 0, i, 0, 2)
-    Citizen.Wait(1)
-  end
+  -- for i=0,19 do
+  --   SetPedComponentVariation(GetPlayerPed(-1), 0, i, 0, 2)
+  --   Citizen.Wait(1)
+  -- end
+
   -- SetPedComponentVariation(myPed, 0, 0, 0, 2) --Face
   -- SetPedComponentVariation(myPed, 2, 11, 4, 2) --Hair 
   -- SetPedComponentVariation(myPed, 4, 1, 5, 2) -- Pantalon
@@ -396,37 +336,63 @@ AddEventHandler("RC:battleground", function()
 
   TriggerEvent("chatMessage", "BG", {255, 255, 255}, "The battle will begin shortly.")
 
-  -- SetVehicleDoorOpen(Vehicle vehicle, int doorIndex, BOOL loose, BOOL openInstantly)
-  -- doorIndex:
-  -- 0 = Front Left Door
-  -- 1 = Front Right Door
-  -- 2 = Back Left Door
-  -- 3 = Back Right Door
-  -- 4 = Hood
-  -- 5 = Trunk
-  -- 6 = Back
-  -- 7 = Back2
+  Citizen.Wait(5000)
 
   -- Open Plane Cargo Bay Door
-  SetVehicleDoorOpen(frontplane, 6, 0, 0)
+  SetVehicleDoorOpen(frontplane, 5, 0, 0)
+  SetVehicleDoorsLockedForAllPlayers(frontplane, false)
 
   Citizen.Wait(5000)
 
-  if IsPedSwimming(myPed) then -- Warp Players into the planes if they've jumped into the ocean
-    TaskWarpPedIntoVehicle(myPed, frontplane, 1)
+  local parachute = GetHashKey("GADGET_PARACHUTE")
+  GiveWeaponToPed(GetPlayerPed(-1), parachute, 1, 0, false)
+
+  if IsPedSwimming(GetPlayerPed(-1)) then -- Warp Players into the planes if they've jumped into the ocean
+    TriggerEvent("chatMessage", "BG", {255, 255, 255}, "You're a swimmer.")
+    TaskWarpPedIntoVehicle(GetPlayerPed(-1), frontplane, 1)
   else -- If possible, run all peds to the planes, rather than teleporting
     -- TaskEnterVehicle(ped, vehicle, timeout, seat, float speed, 1, 0)
-    TaskEnterVehicle(myPed, frontplane, 20000, 1, 1.5, 1, 0)
+
+    -- Disable movement from player until they're in the plane
+    -- Parameter is a control group, outlined here: https://wiki.fivem.net/wiki/Controls#Input_groups
+    -- DisableAllControlActions(0)
+    
+    TaskEnterVehicle(GetPlayerPed(-1), frontplane, 20000, 1, 2.0, 1, 0)
+    TriggerEvent("chatMessage", "BG", {255, 255, 255}, "You're not a swimmer.")
   end
 
+  Citizen.Wait(25000)
+
   -- Close Plane Cargo Bay Door
-  SetVehicleDoorShut(frontplane, 6, 0, 0)
+  SetVehicleDoorShut(frontplane, 5, 0, 0)
+  SetVehicleDoorsLockedForAllPlayers(frontplane,true)
+
+  Citizen.Wait(4000)
 
   -- Planes fly to coords
     -- Set planes to fly off deck with correct heading
-      -- TaskVehicleDriveToCoord
+      emotes = {
+        {name="CountryClub", x=-3004.25, y=89.03, z=900.0, heading=88.0},
+        {name="MilitaryBase", x=-2654.72, y=2656.98, z=900.0, heading=35.36},
+        {name="PaletoBay", x=-65.99, y=6309.98, z=900.0, heading=313.8},
+        {name="Farm", x=2417.19, y=4980.32, z=900.0, heading=4.49}
+      }
+      local frontplanewp = emotes[math.random(#emotes)]
+      local middleplanewp = emotes[math.random(#emotes)]
+      local rearplanewp = emotes[math.random(#emotes)]
+      TaskPlaneMission(GetPedInVehicleSeat(frontplane, -1), frontplane, 0, 0, frontplanewp['x'], frontplanewp['y'], frontplanewp['z'], 4, 300.00, 0.0, frontplanewp['heading'], 0.0, 200.0)
+      Citizen.Wait(1000)
+      TaskPlaneMission(GetPedInVehicleSeat(middleplane, -1), middleplane, 0, 0, middleplanewp['x'], middleplanewp['y'], middleplanewp['z'], 4, 300.00, 0.0, middleplanewp['heading'], 0.0, 200.0)
+      Citizen.Wait(1000)
+      TaskPlaneMission(GetPedInVehicleSeat(rearplane, -1), rearplane, 0, 0, rearplanewp['x'], rearplanewp['y'], rearplanewp['z'], 4, 300.00, 0.0, rearplanewp['heading'], 0.0, 200.0)
     -- Check if they've achieved flight (hopefully confirms a successful takeoff)
       -- IsPedInFlyingVehicle
+        -- ControlLandingGear(vehicle, state)
+          -- landing gear states:
+          -- 0: Deployed
+          -- 1: Closing
+          -- 2: Opening
+          -- 3: Retracted
     -- When they're successfully airborn, fly to final destination.
       -- TaskVehicleDriveToCoordLongrange
       -- TaskGoToCoordAnyMeansExtraParamsWithCruiseSpeed
@@ -452,18 +418,18 @@ Citizen.CreateThread(function()
     -- SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
 
     -- Hide Crosshair
-    if IsHudComponentActive(14) then
-      HideHudComponentThisFrame(14)
-    end
+    -- if IsHudComponentActive(14) then
+    --   HideHudComponentThisFrame(14)
+    -- end
 
     -- Hide Minimap unless player is in vehicle
-    if IsPedInVehicle(GetPlayerPed(-1)) then
-      -- SetDrawMapVisible(1)
-      DisplayRadar(1)
-    else
-      -- SetDrawMapVisible(0)
-      DisplayRadar(0)
-    end
+    -- if IsPedInVehicle(GetPlayerPed(-1)) then
+    --   -- SetDrawMapVisible(1)
+    --   DisplayRadar(1)
+    -- else
+    --   -- SetDrawMapVisible(0)
+    --   DisplayRadar(0)
+    -- end
       
     Citizen.Wait(1)
   end

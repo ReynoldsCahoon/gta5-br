@@ -28,6 +28,9 @@ AddEventHandler("chatMessage", function(p, color, msg)
         elseif cmd == "/lock" then
           TriggerClientEvent("RC:lockcar", p)
           CancelEvent()
+        elseif cmd == "/license" then
+          TriggerClientEvent("RC:license", p, fullcmd[2])
+          CancelEvent()
         elseif cmd == "/gps" then
           TriggerClientEvent("RC:gps", p)
           CancelEvent()
