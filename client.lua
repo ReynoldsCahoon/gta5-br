@@ -371,31 +371,37 @@ AddEventHandler("RC:battleground", function()
 
   -- Planes fly to coords
     -- Set planes to fly off deck with correct heading
-      emotes = {
+      local takeoffpoint = {x=2728.32, y=-4036.85, z=135.09, heading=29.96}
+      TaskPlaneMission(GetPedInVehicleSeat(frontplane, -1), frontplane, 0, 0, takeoffpoint['x'], takeoffpoint['y'], takeoffpoint['z'], 4, 300.00, 0.0, takeoffpoint['heading'], 0.0, 200.0)
+      Citizen.Wait(1000)
+      TaskPlaneMission(GetPedInVehicleSeat(middleplane, -1), middleplane, 0, 0, takeoffpoint['x'], takeoffpoint['y'], takeoffpoint['z'], 4, 300.00, 0.0, takeoffpoint['heading'], 0.0, 200.0)
+      Citizen.Wait(1000)
+      TaskPlaneMission(GetPedInVehicleSeat(rearplane, -1), rearplane, 0, 0, takeoffpoint['x'], takeoffpoint['y'], takeoffpoint['z'], 4, 300.00, 0.0, takeoffpoint['heading'], 0.0, 200.0)
+
+      Citizen.Wait(15000)
+
+      local destinations = {
         {name="CountryClub", x=-3004.25, y=89.03, z=900.0, heading=88.0},
         {name="MilitaryBase", x=-2654.72, y=2656.98, z=900.0, heading=35.36},
         {name="PaletoBay", x=-65.99, y=6309.98, z=900.0, heading=313.8},
         {name="Farm", x=2417.19, y=4980.32, z=900.0, heading=4.49}
       }
-      local frontplanewp = emotes[math.random(#emotes)]
-      local middleplanewp = emotes[math.random(#emotes)]
-      local rearplanewp = emotes[math.random(#emotes)]
+
+      local tempRand = math.random(#destinations)
+      local frontplanewp = table.remove(destinations, tempRand)
+      tempRand = math.random(#destinations)
+      local middleplanewp = table.remove(destinations, tempRand)
+      tempRand = math.random(#destinations)
+      local rearplanewp = table.remove(destinations, tempRand)
+
       TaskPlaneMission(GetPedInVehicleSeat(frontplane, -1), frontplane, 0, 0, frontplanewp['x'], frontplanewp['y'], frontplanewp['z'], 4, 300.00, 0.0, frontplanewp['heading'], 0.0, 200.0)
+      SetVehicleLandingGear(frontplane, 1)
       Citizen.Wait(1000)
       TaskPlaneMission(GetPedInVehicleSeat(middleplane, -1), middleplane, 0, 0, middleplanewp['x'], middleplanewp['y'], middleplanewp['z'], 4, 300.00, 0.0, middleplanewp['heading'], 0.0, 200.0)
+      SetVehicleLandingGear(middleplane, 1)
       Citizen.Wait(1000)
       TaskPlaneMission(GetPedInVehicleSeat(rearplane, -1), rearplane, 0, 0, rearplanewp['x'], rearplanewp['y'], rearplanewp['z'], 4, 300.00, 0.0, rearplanewp['heading'], 0.0, 200.0)
-    -- Check if they've achieved flight (hopefully confirms a successful takeoff)
-      -- IsPedInFlyingVehicle
-        -- ControlLandingGear(vehicle, state)
-          -- landing gear states:
-          -- 0: Deployed
-          -- 1: Closing
-          -- 2: Opening
-          -- 3: Retracted
-    -- When they're successfully airborn, fly to final destination.
-      -- TaskVehicleDriveToCoordLongrange
-      -- TaskGoToCoordAnyMeansExtraParamsWithCruiseSpeed
+      SetVehicleLandingGear(rearplane, 1)
 
   -- Make Peds Drop Weapons, might make it dependant on ped group
   -- (Standard civilians pistols? Gang/guards/police shotungs/rifles/smgs?)
