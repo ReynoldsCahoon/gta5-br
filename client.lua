@@ -1,12 +1,15 @@
 RegisterNetEvent("RC:spawncar")
 RegisterNetEvent("RC:spawngun")
+RegisterNetEvent("RC:emote")
 RegisterNetEvent("RC:wanted")
 RegisterNetEvent("RC:suicide")
+RegisterNetEvent("RC:seat")
 RegisterNetEvent("RC:gps")
 RegisterNetEvent("RC:changemodel")
 RegisterNetEvent("RC:battleground")
 RegisterNetEvent("RC:lockcar")
 RegisterNetEvent("RC:license")
+RegisterNetEvent("RC:cat")
 
 Citizen.CreateThread(function()
 
@@ -107,6 +110,122 @@ Citizen.CreateThread(function()
 
 end)
 
+local emotes = {
+  {name="hiker", id="WORLD_HUMAN_HIKER"},
+  {name="coffee", id="WORLD_HUMAN_AA_COFFEE"},
+  {name="smoke", id="WORLD_HUMAN_AA_SMOKE"},
+  {name="binoculars", id="WORLD_HUMAN_BINOCULARS"},
+  {name="bumsign", id="WORLD_HUMAN_BUM_FREEWAY"},
+  {name="bumlay", id="WORLD_HUMAN_BUM_SLUMPED"},
+  {name="bumstand", id="WORLD_HUMAN_BUM_STANDING"},
+  {name="bumwash", id="WORLD_HUMAN_BUM_WASH"},
+  {name="parking", id="WORLD_HUMAN_CAR_PARK_ATTENDANT"},
+  {name="cheer", id="WORLD_HUMAN_CHEERING"},
+  {name="clipboard", id="WORLD_HUMAN_CLIPBOARD"},
+  {name="drill", id="WORLD_HUMAN_CONST_DRILL"},
+  {name="cop", id="WORLD_HUMAN_COP_IDLES"},
+  {name="drinking", id="WORLD_HUMAN_DRINKING"},
+  {name="drugdealer", id="WORLD_HUMAN_DRUG_DEALER"},
+  {name="drugdealer2", id="WORLD_HUMAN_DRUG_DEALER_HARD"},
+  {name="phonecam", id="WORLD_HUMAN_MOBILE_FILM_SHOCKING"},
+  {name="leafblower", id="WORLD_HUMAN_GARDENER_LEAF_BLOWER"},
+  {name="gardening", id="WORLD_HUMAN_GARDENER_PLANT"},
+  {name="golf", id="WORLD_HUMAN_GOLF_PLAYER"},
+  {name="alert", id="WORLD_HUMAN_GUARD_PATROL"},
+  {name="guard", id="WORLD_HUMAN_GUARD_STAND"},
+  {name="armystand", id="WORLD_HUMAN_GUARD_STAND_ARMY"},
+  {name="hammer", id="WORLD_HUMAN_HAMMERING"},
+  {name="hangout", id="WORLD_HUMAN_HANG_OUT_STREET"},
+  {name="hikerstand", id="WORLD_HUMAN_HIKER_STANDING"},
+  {name="statue", id="WORLD_HUMAN_HUMAN_STATUE"},
+  {name="janitor", id="WORLD_HUMAN_JANITOR"},
+  {name="joginplace", id="WORLD_HUMAN_JOG_STANDING"},
+  {name="lean", id="WORLD_HUMAN_LEANING"},
+  {name="clean", id="WORLD_HUMAN_MAID_CLEAN"},
+  {name="flex", id="WORLD_HUMAN_MUSCLE_FLEX"},
+  {name="weights", id="WORLD_HUMAN_MUSCLE_FREE_WEIGHTS"},
+  {name="musician", id="WORLD_HUMAN_MUSICIAN"},
+  {name="photo", id="WORLD_HUMAN_PAPARAZZI"},
+  {name="party", id="WORLD_HUMAN_PARTYING"},
+  {name="picnic", id="WORLD_HUMAN_PICNIC"},
+  {name="femme", id="WORLD_HUMAN_PROSTITUTE_HIGH_CLASS"},
+  {name="femmedrunk", id="WORLD_HUMAN_PROSTITUTE_LOW_CLASS"},
+  {name="pushups", id="WORLD_HUMAN_PUSH_UPS"},
+  {name="sit", id="WORLD_HUMAN_SEAT_LEDGE"},
+  {name="siteat", id="WORLD_HUMAN_SEAT_LEDGE_EATING"},
+  {name="sitsteps", id="WORLD_HUMAN_SEAT_STEPS"},
+  {name="sitwall", id="WORLD_HUMAN_SEAT_WALL"},
+  {name="sitwalleat", id="WORLD_HUMAN_SEAT_WALL_EATING"},
+  {name="sitwalltablet", id="WORLD_HUMAN_SEAT_WALL_TABLET"},
+  {name="flashlight", id="WORLD_HUMAN_SECURITY_SHINE_TORCH"},
+  {name="situps", id="WORLD_HUMAN_SIT_UPS"},
+  {name="smoke", id="WORLD_HUMAN_SMOKING"},
+  {name="toke", id="WORLD_HUMAN_SMOKING_POT"},
+  {name="fire", id="WORLD_HUMAN_STAND_FIRE"},
+  {name="fishing", id="WORLD_HUMAN_STAND_FISHING"},
+  {name="impatient", id="WORLD_HUMAN_STAND_IMPATIENT"},
+  {name="impatient2", id="WORLD_HUMAN_STAND_IMPATIENT_UPRIGHT"},
+  {name="mobile", id="WORLD_HUMAN_STAND_MOBILE"},
+  {name="mobile2", id="WORLD_HUMAN_STAND_MOBILE_UPRIGHT"},
+  {name="watchstrip", id="WORLD_HUMAN_STRIP_WATCH_STAND"},
+  {name="stupor", id="WORLD_HUMAN_STUPOR"},
+  {name="laytummy", id="WORLD_HUMAN_SUNBATHE"},
+  {name="layback", id="WORLD_HUMAN_SUNBATHE_BACK"},
+  {name="tennis", id="WORLD_HUMAN_TENNIS_PLAYER"},
+  {name="map", id="WORLD_HUMAN_TOURIST_MAP"},
+  {name="mobile3", id="WORLD_HUMAN_TOURIST_MOBILE"},
+  {name="mechanic", id="WORLD_HUMAN_VEHICLE_MECHANIC"},
+  {name="weld", id="WORLD_HUMAN_WELDING"},
+  {name="windowshop", id="WORLD_HUMAN_WINDOW_SHOP_BROWSE"},
+  {name="yoga", id="WORLD_HUMAN_YOGA"},
+  {name="atm", id="PROP_HUMAN_ATM"},
+  {name="bbq", id="PROP_HUMAN_BBQ"},
+  {name="dumpsterdive", id="PROP_HUMAN_BUM_BIN"},
+  {name="bumshoppingcart", id="PROP_HUMAN_BUM_SHOPPING_CART"},
+  {name="chinups", id="PROP_HUMAN_MUSCLE_CHIN_UPS"},
+  {name="chinups2", id="PROP_HUMAN_MUSCLE_CHIN_UPS_ARMY"},
+  {name="chinups3", id="PROP_HUMAN_MUSCLE_CHIN_UPS_PRISON"},
+  {name="parkingmeter", id="PROP_HUMAN_PARKING_METER"},
+  {name="sitarmchair", id="PROP_HUMAN_SEAT_ARMCHAIR"},
+  {name="sitbar", id="PROP_HUMAN_SEAT_BAR"},
+  {name="sitbench", id="PROP_HUMAN_SEAT_BENCH"},
+  {name="sitbenchdrink", id="PROP_HUMAN_SEAT_BENCH_DRINK"},
+  {name="sitbenchbeer", id="PROP_HUMAN_SEAT_BENCH_DRINK_BEER"},
+  {name="sitbenchfood", id="PROP_HUMAN_SEAT_BENCH_FOOD"},
+  {name="waitforbus", id="PROP_HUMAN_SEAT_BUS_STOP_WAIT"},
+  {name="sitchair", id="PROP_HUMAN_SEAT_CHAIR"},
+  {name="westysit", id="WORLD_DOG_SITTING_SMALL"},
+  {name="westybark", id="WORLD_DOG_BARKING_SMALL"},
+  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_DRINK"},
+  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_DRINK_BEER"},
+  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_FOOD"},
+  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_UPRIGHT"},
+  -- {name="", id="PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"},
+  -- {name="", id="PROP_HUMAN_SEAT_COMPUTER"},
+  -- {name="", id="PROP_HUMAN_SEAT_DECKCHAIR"},
+  -- {name="", id="PROP_HUMAN_SEAT_DECKCHAIR_DRINK"},
+  -- {name="", id="PROP_HUMAN_SEAT_MUSCLE_BENCH_PRESS"},
+  -- {name="", id="PROP_HUMAN_SEAT_MUSCLE_BENCH_PRESS_PRISON"},
+  -- {name="", id="PROP_HUMAN_SEAT_SEWING"},
+  -- {name="", id="PROP_HUMAN_SEAT_STRIP_WATCH"},
+  -- {name="", id="PROP_HUMAN_SEAT_SUNLOUNGER"},
+  -- {name="", id="PROP_HUMAN_STAND_IMPATIENT"},
+  -- {name="", id="CODE_HUMAN_COWER"},
+  -- {name="", id="CODE_HUMAN_CROSS_ROAD_WAIT"},
+  -- {name="", id="CODE_HUMAN_PARK_CAR"},
+  -- {name="", id="PROP_HUMAN_MOVIE_BULB"},
+  -- {name="", id="PROP_HUMAN_MOVIE_STUDIO_LIGHT"},
+  {name="kneel", id="CODE_HUMAN_MEDIC_KNEEL"}
+  -- {name="", id="CODE_HUMAN_MEDIC_TEND_TO_DEAD"},
+  -- {name="", id="CODE_HUMAN_MEDIC_TIME_OF_DEATH"},
+  -- {name="", id="CODE_HUMAN_POLICE_CROWD_CONTROL"},
+  -- {name="", id="CODE_HUMAN_POLICE_INVESTIGATE"},
+  -- {name="", id="CODE_HUMAN_STAND_COWER"},
+  -- {name="", id="EAR_TO_TEXT"},
+  -- {name="", id="EAR_TO_TEXT_FAT"}
+
+}
+
 AddEventHandler("RC:spawncar", function(carName)
   local myPed = GetPlayerPed(-1)
   local vehicle = GetHashKey(carName)
@@ -160,6 +279,38 @@ AddEventHandler("RC:spawngun", function(gunName)
   end)
 end)
 
+AddEventHandler("RC:emote", function(emote)
+  local myPed = GetPlayerPed(-1)
+  
+  if emote then
+    emote = string.lower(emote)
+    
+    if emote == "list" then
+      local list = "Emotes: "
+      for i, v in ipairs(emotes) do
+        list = list .. v['name'] .. ", "
+      end
+      list = list:sub(1, -3) .. "."
+      TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, list)
+    else
+      local match = has_value(emotes, emote)
+
+      if match then
+        -- https://runtime.fivem.net/doc/reference.html#_0xEA47FE3719165B94
+        -- TaskPlayAnim(myPed, char* animDictionary, char* animationName, float speed, float speedMultiplier, int duration, int flag, float playbackRate, BOOL lockX, BOOL lockY, BOOL lockZ);
+        TaskStartScenarioInPlace(myPed, emotes[match]['id'], 0, false)
+        TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Starting " .. emote .. " emote.")
+      else
+        TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Emote " .. emote .. " not found.")
+      end
+    end
+  else
+    ClearPedTasks(myPed);
+    ClearPedSecondaryTask(myPed)
+    TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Stopping current emote.")
+  end
+end)
+
 AddEventHandler("RC:lockcar", function()
   local myPed = GetPlayerPed(-1)
   local currentVeh = GetVehiclePedIsIn(myPed)
@@ -188,6 +339,44 @@ AddEventHandler("RC:lockcar", function()
     TriggerEvent("chatMessage", "SYSTEM", {255, 255, 255}, "You have no vehicle to lock.")
   end
   
+end)
+
+AddEventHandler("RC:cat", function()
+  local myPed = GetPlayerPed(-1)
+  local coords = GetEntityCoords(myPed,true)
+  local x = coords['x']
+  local y = coords['y']
+  local z = coords['z']
+  local heading = GetEntityHeading(myPed)
+
+  local catmodel = GetHashKey("CAT")
+  
+  -- Ped CREATE_PED(int pedType, Hash modelHash, float x, float y, float z, float heading, BOOL isNetwork, BOOL p7);
+  -- p7 - last parameter does not mean ped handle is returned
+  -- maybe a quick view in disassembly will tell us what is actually does
+
+
+  -- *Heading*: 0.0
+  -- *Heading* is the Z axis spawn rotation of the ped 0->5th parameter.
+
+  -- Ped Types:
+  -- [Player,1|Male,4|Female,5|Cop,6|Human,26|SWAT,27|Animal,28|Army,29]
+  -- You can also use GET_PED_TYPE
+
+  RequestModel(catmodel)
+  while (not HasModelLoaded(catmodel)) do
+    Citizen.Wait(0)
+  end
+
+  catPed = CreatePed(28, catmodel, x, y, z, heading, 1, 1)
+
+  -- void TASK_FOLLOW_TO_OFFSET_OF_ENTITY(Ped ped, Entity entity, float offsetX, float offsetY, float offsetZ, float movementSpeed, int timeout, float stoppingRange, BOOL persistFollowing);
+  -- p6 always -1
+  -- p7 always 10.0
+  -- p8 always 1
+
+  TaskFollowToOffsetOfEntity(catPed, myPed, 10.0, 10.0, 0.0, 1.5, 1000, 0.0, 1)
+
 end)
 
 AddEventHandler("RC:license", function(plateText)
@@ -235,6 +424,18 @@ end)
 AddEventHandler("RC:suicide", function()
   local myPed = GetPlayerPed(-1)
   SetEntityHealth(myPed, 0)
+end)
+
+AddEventHandler("RC:seat", function(seat)
+  local myPed = GetPlayerPed(-1)
+  local veh = GetVehiclePedIsIn(myPed)
+  seat = tonumber(seat)
+  if seat and veh then
+    TaskWarpPedIntoVehicle(myPed, veh, seat)
+    TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Moved to seat " .. seat .. ".")
+  else
+    TriggerEvent('chatMessage', 'SYSTEM', {255, 255, 255}, "Provide a seat number to change seats!")
+  end
 end)
 
 AddEventHandler("RC:gps", function()
@@ -394,13 +595,13 @@ AddEventHandler("RC:battleground", function()
       tempRand = math.random(#destinations)
       local rearplanewp = table.remove(destinations, tempRand)
 
-      TaskPlaneMission(GetPedInVehicleSeat(frontplane, -1), frontplane, 0, 0, frontplanewp['x'], frontplanewp['y'], frontplanewp['z'], 4, 300.00, 0.0, frontplanewp['heading'], 0.0, 200.0)
+      TaskPlaneMission(GetPedInVehicleSeat(frontplane, -1), frontplane, 0, 0, frontplanewp['x'], frontplanewp['y'], frontplanewp['z'], 4, 900.00, 0.0, frontplanewp['heading'], 0.0, 200.0)
       SetVehicleLandingGear(frontplane, 1)
       Citizen.Wait(1000)
-      TaskPlaneMission(GetPedInVehicleSeat(middleplane, -1), middleplane, 0, 0, middleplanewp['x'], middleplanewp['y'], middleplanewp['z'], 4, 300.00, 0.0, middleplanewp['heading'], 0.0, 200.0)
+      TaskPlaneMission(GetPedInVehicleSeat(middleplane, -1), middleplane, 0, 0, middleplanewp['x'], middleplanewp['y'], middleplanewp['z'], 4, 900.00, 0.0, middleplanewp['heading'], 0.0, 200.0)
       SetVehicleLandingGear(middleplane, 1)
       Citizen.Wait(1000)
-      TaskPlaneMission(GetPedInVehicleSeat(rearplane, -1), rearplane, 0, 0, rearplanewp['x'], rearplanewp['y'], rearplanewp['z'], 4, 300.00, 0.0, rearplanewp['heading'], 0.0, 200.0)
+      TaskPlaneMission(GetPedInVehicleSeat(rearplane, -1), rearplane, 0, 0, rearplanewp['x'], rearplanewp['y'], rearplanewp['z'], 4, 900.00, 0.0, rearplanewp['heading'], 0.0, 200.0)
       SetVehicleLandingGear(rearplane, 1)
 
   -- Make Peds Drop Weapons, might make it dependant on ped group
@@ -421,12 +622,13 @@ Citizen.CreateThread(function()
     SetPedPopulationBudget(1.0)
     SetRandomVehicleDensityMultiplierThisFrame(1.0)
     SetParkedVehicleDensityMultiplierThisFrame(1.0)
+    SetFollowPedCamViewMode(4)
     -- SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
 
     -- Hide Crosshair
-    -- if IsHudComponentActive(14) then
-    --   HideHudComponentThisFrame(14)
-    -- end
+    if IsHudComponentActive(14) then
+      HideHudComponentThisFrame(14)
+    end
 
     -- Hide Minimap unless player is in vehicle
     -- if IsPedInVehicle(GetPlayerPed(-1)) then

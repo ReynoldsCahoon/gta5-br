@@ -2,7 +2,7 @@ RegisterServerEvent("chatCommandEntered")
 RegisterServerEvent('chatMessageEntered')
 
 AddEventHandler("", function (p)
-
+  
 end)
 
 AddEventHandler("chatMessage", function(p, color, msg)
@@ -16,11 +16,17 @@ AddEventHandler("chatMessage", function(p, color, msg)
       elseif cmd == "/weapon" then
         TriggerClientEvent("RC:spawngun", p, fullcmd[2])
         CancelEvent()
+      elseif cmd == "/emote" then
+        TriggerClientEvent("RC:emote", p, fullcmd[2])
+        CancelEvent()
       elseif cmd == "/wanted" then
         TriggerClientEvent("RC:wanted", p, fullcmd[2])
         CancelEvent()
       elseif cmd == "/die" then
         TriggerClientEvent("RC:suicide", p)
+        CancelEvent()
+      elseif cmd == "/seat" then
+        TriggerClientEvent("RC:seat", p, fullcmd[2])
         CancelEvent()
       elseif cmd == "/model" then
         TriggerClientEvent("RC:changemodel", p, fullcmd[2])
@@ -34,6 +40,9 @@ AddEventHandler("chatMessage", function(p, color, msg)
         CancelEvent()
       elseif cmd == "/license" then
         TriggerClientEvent("RC:license", p, fullcmd[2])
+        CancelEvent()
+      elseif cmd == "/cat" then
+        TriggerClientEvent("RC:cat", p)
         CancelEvent()
       elseif cmd == "/gps" then
         TriggerClientEvent("RC:gps", p)
